@@ -30,13 +30,17 @@ if not osp.exists(dataset_path):
     for s in ["train", "val"]:
         os.makedirs(osp.join(dataset_path, "images", s))
         os.makedirs(osp.join(dataset_path, "labels", s))
+cnt = 0
 for set_data in ["public_train", "public_test"]:
     if set_data == "public_train":
         s = "train"
     elif set_data == "public_test":
         s = "val"
-    path = "/home/ubuntu/shared/{}/pill/".format(set_data)
+    path = "/content/{}/pill/".format(set_data)
     for file in tqdm(os.listdir(osp.join(path, "label"))):
+        cnt = cnt+1
+        if cnt>9000:
+           s = "val" 
         if file.endswith(".json"):
             with open(osp.join(path, "label", file)) as f:
                 data = json.load(f)
